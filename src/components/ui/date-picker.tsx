@@ -65,10 +65,20 @@ export function DatePicker({
     setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1))
   }
 
+  const parseDateToLocal = (dateString: string) => {
+    if (!dateString) return null
+    // Extraer año, mes y día para crear la fecha en hora local
+    const [year, month, day] = dateString.split("-").map((num) => Number.parseInt(num, 10))
+    return new Date(year, month - 1, day)
+  }
+
   const renderCalendarDays = () => {
     const days = []
     const year = currentMonth.getFullYear()
     const month = currentMonth.getMonth()
+
+    const valueDate = value ? parseDateToLocal(value) : null
+    const minDateObj = minDate ? parseDateToLocal(minDate) : null
 
     // Primer día del mes
     const firstDay = new Date(year, month, 1)
@@ -87,8 +97,8 @@ export function DatePicker({
         date: prevDate,
         isCurrentMonth: false,
         isToday: isSameDay(prevDate, new Date()),
-        isSelected: value ? isSameDay(prevDate, new Date(value)) : false,
-        isDisabled: minDate ? prevDate < new Date(minDate) : false,
+        isSelected: valueDate ? isSameDay(prevDate, valueDate) : false,
+        isDisabled: minDateObj ? prevDate < minDateObj : false,
       })
     }
 
@@ -99,8 +109,8 @@ export function DatePicker({
         date,
         isCurrentMonth: true,
         isToday: isSameDay(date, new Date()),
-        isSelected: value ? isSameDay(date, new Date(value)) : false,
-        isDisabled: minDate ? date < new Date(minDate) : false,
+        isSelected: valueDate ? isSameDay(date, valueDate) : false,
+        isDisabled: minDateObj ? date < minDateObj : false,
       })
     }
 
@@ -113,8 +123,8 @@ export function DatePicker({
           date: nextDate,
           isCurrentMonth: false,
           isToday: isSameDay(nextDate, new Date()),
-          isSelected: value ? isSameDay(nextDate, new Date(value)) : false,
-          isDisabled: minDate ? nextDate < new Date(minDate) : false,
+          isSelected: valueDate ? isSameDay(nextDate, valueDate) : false,
+          isDisabled: minDateObj ? nextDate < minDateObj : false,
         })
       }
     }
