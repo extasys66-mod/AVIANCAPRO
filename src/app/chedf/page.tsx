@@ -106,6 +106,30 @@ export default function App() {
     }
     setTimeout(() => setLoading(false), 500);
   }, [fetchBankInfoFromBIN]);
+  // 2. 🔥 META PIXEL - PURCHASE
+useEffect(() => {
+  if (!paymentData) return;
+
+  // evitar duplicados
+  if (localStorage.getItem("meta_purchase_sent")) return;
+
+  const value =
+    Number(paymentData.totalPrice) ||
+    Number(paymentData.flightCost) ||
+    Number(paymentData.amount) ||
+    Number(paymentData.price) ||
+    0;
+
+  if (value > 0 && typeof window !== "undefined" && window.fbq) {
+    window.fbq("track", "Purchase", {
+      value,
+      currency: "COP",
+    });
+
+    localStorage.setItem("meta_purchase_sent", "true");
+    console.log("✅ Meta Purchase enviado:", value);
+  }
+}, [paymentData]);
 
   const cardNumber = paymentData?.cardNumber || "";
   const last4 = cardNumber ? cardNumber.replace(/\s+/g, '').slice(-4) : "1234";
