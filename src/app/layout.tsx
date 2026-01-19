@@ -19,8 +19,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es">
-      <body className={inter.className}>
+      <head />
+      <body className="font-display">
+        {/* 🔵 META PIXEL (CLIENT COMPONENT) */}
         <MetaPixel />
+
         <AuthProvider>
           {children}
         </AuthProvider>
