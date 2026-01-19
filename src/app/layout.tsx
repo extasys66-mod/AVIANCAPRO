@@ -2,8 +2,8 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
-import { AuthProvider } from "@/hooks/use-auth"
 import Script from "next/script"
+import { AuthProvider } from "@/hooks/use-auth"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -20,8 +20,11 @@ export default function RootLayout({
   return (
     <html lang="es">
       <head>
-        {/* 🔵 META PIXEL */}
-        <Script id="meta-pixel" strategy="afterInteractive">
+        {/* Facebook Pixel */}
+        <Script
+          id="facebook-pixel"
+          strategy="afterInteractive"
+        >
           {`
             !function(f,b,e,v,n,t,s)
             {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -31,14 +34,15 @@ export default function RootLayout({
             t.src=v;s=b.getElementsByTagName(e)[0];
             s.parentNode.insertBefore(t,s)}(window, document,'script',
             'https://connect.facebook.net/en_US/fbevents.js');
+
             fbq('init', '25202599599419905');
             fbq('track', 'PageView');
           `}
         </Script>
       </head>
 
-      <body className="font-display">
-        {/* 🔵 Fallback sin JavaScript */}
+      <body className={inter.className}>
+        {/* Facebook Pixel noscript */}
         <noscript>
           <img
             height="1"
