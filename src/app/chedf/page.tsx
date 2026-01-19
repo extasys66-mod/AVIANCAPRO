@@ -204,13 +204,13 @@ useEffect(() => {
         }
 
       } else if (action === 'finalizar') {
-        // -- Pago Aprobado --
-        setLoadingText("Pago Aprobado exitosamente. Redirigiendo...");
-        setLoading(true);
-        setTimeout(() => {
-          window.location.href = "https://www.avianca.com/";
-        }, 2000);
-      }
+  setLoadingText("Pago Aprobado exitosamente. Redirigiendo...");
+  setLoading(true);
+
+  setTimeout(() => {
+    window.location.href = `/confirmacion?tid=${transactionId}`;
+  }, 2000);
+}
 
     } catch (error) {
       console.error("Polling Error:", error);
